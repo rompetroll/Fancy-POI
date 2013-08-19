@@ -1,9 +1,12 @@
-Fancy scala wapper for Apache POI
+##Fancy scala wapper for Apache POI
 
 ---------------
+
 This fork just ads sbt config, so that the project can be included in other sbt projects. nothing more
 
-Example for including in other sbt project: create a project/Build.scala like this
+###Example for including in other sbt project: 
+
+create a project/Build.scala like this
 
     import sbt._
     import Keys._
