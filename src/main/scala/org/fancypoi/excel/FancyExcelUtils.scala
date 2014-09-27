@@ -67,7 +67,7 @@ object FancyExcelUtils extends App {
    * 		・罫線もない
    */
   def isViewableCell(cell: FancyCell) = {
-    !(cell.getCellType == CellType.CELL_TYPE_BLANK &&
+    !(cell.cellType == FancyCellType.CellTypeBlank &&
       List(0, 64).contains(cell.style.getFillBackgroundColor) &&
       List(0, 64).contains(cell.style.getFillForegroundColor) &&
       cell.style.getBorderBottom == CellStyle.BORDER_NONE &&

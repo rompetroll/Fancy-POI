@@ -64,6 +64,8 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def colIndex = _cell.getColumnIndex
 
+  def cellType: FancyCellType.CellType = FancyCellType.fromPoiCellType(_cell.getCellType)
+
   def style = _cell.getCellStyle
 
   def font = workbook.getFontAt(_cell.getCellStyle.getFontIndex)
