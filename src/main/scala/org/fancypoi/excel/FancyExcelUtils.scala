@@ -27,7 +27,7 @@ object FancyExcelUtils {
    */
   def colIndexToAddr(index: Int) = {
     index / 26 match {
-      case 0 => alphabets(index % 26).toString
+      case 0     => alphabets(index % 26).toString
       case count => alphabets(count - 1).toString + alphabets(index % 26).toString
     }
   }
@@ -159,8 +159,8 @@ object FancyExcelUtils {
   def equalHyperlink(link1: Hyperlink, link2: Hyperlink) = {
     (link1, link2) match {
       case (null, null) => true
-      case (null, _) => false
-      case (_, null) => false
+      case (null, _)    => false
+      case (_, null)    => false
       case _ =>
         diff(link1.getAddress, link2.getAddress, "address") &&
           diff(link1.getLabel, link2.getLabel, "label") &&
@@ -171,8 +171,8 @@ object FancyExcelUtils {
   def equalComment(cm1: Comment, cm2: Comment, w1: Workbook, w2: Workbook) = {
     (cm1, cm2) match {
       case (null, null) => true
-      case (null, _) => false
-      case (_, null) => false
+      case (null, _)    => false
+      case (_, null)    => false
       case _ =>
         diff(cm1.getAuthor, cm2.getAuthor, "author") &&
           diff(cm1.isVisible, cm2.isVisible, "isVisible") &&
@@ -245,7 +245,7 @@ object FancyExcelUtils {
 
   def !![T](any: T) = any match {
     case null => None
-    case _ => Some(any)
+    case _    => Some(any)
   }
 
   class AddrRangeStart(startAddr: String) {

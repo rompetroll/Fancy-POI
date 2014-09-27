@@ -47,12 +47,12 @@ class FancyWorkbook(protected[fancypoi] val workbook: Workbook) {
   protected[fancypoi] val tmpStyle = new FancyCellStyle
 
   def getFontAt(index: Short) = index == FancyFont.DEFAULT_FONT_INDEX match {
-    case true => defaultFont
+    case true  => defaultFont
     case false => workbook.getFontAt(index)
   }
 
   def getStyleAt(index: Short) = index == FancyCellStyle.DEFAULT_CELL_STYLE_INDEX match {
-    case true => defaultStyle
+    case true  => defaultStyle
     case false => workbook.getCellStyleAt(index)
   }
 
@@ -120,7 +120,7 @@ class FancyWorkbook(protected[fancypoi] val workbook: Workbook) {
    * シートを名前で検索します
    */
   def sheet(name: String) = !!(workbook.getSheet(name)) match {
-    case None => workbook.createSheet(name)
+    case None        => workbook.createSheet(name)
     case Some(sheet) => sheet
   }
 
@@ -132,7 +132,7 @@ class FancyWorkbook(protected[fancypoi] val workbook: Workbook) {
   def sheetAt(index: Int) = workbook.getSheetAt(index)
 
   def sheetAt_?(index: Int): Option[Sheet] = workbook.getNumberOfSheets - 1 < index match {
-    case true => None
+    case true  => None
     case false => Some(workbook.getSheetAt(index))
   }
 
