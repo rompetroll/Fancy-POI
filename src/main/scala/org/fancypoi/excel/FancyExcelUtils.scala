@@ -1,35 +1,26 @@
 package org.fancypoi.excel
 
 import org.apache.poi.ss.usermodel._
+import org.apache.poi.ss.util.CellReference
 import org.apache.poi.hssf.usermodel.HSSFRichTextString
 import org.apache.poi.xssf.usermodel.XSSFRichTextString
 import org.fancypoi.Implicits._
 import org.fancypoi.MonadicConversions._
 
-object FancyExcelUtils {
-  val alphabets = ('A' to 'Z').toList
-  val alphabetIndexes = Map(alphabets.zipWithIndex: _*)
+object FancyExcelUtils extends App {
 
   /**
    * 列アドレスを列インデックスに変換します。
    */
   def colAddrToIndex(col: String) = {
-    col.toList.reverse.zipWithIndex.foldLeft(0) {
-      case (n, (alphabet, index)) =>
-        n + scala.math.pow(26.toDouble, index.toDouble).toInt * (alphabetIndexes(alphabet) + {
-          if (0 < index) 1 else 0
-        })
-    }
+    CellReference.convertColStringToIndex(col)
   }
 
   /**
    * 列インデックスを列アドレスに変換します。
    */
   def colIndexToAddr(index: Int) = {
-    index / 26 match {
-      case 0     => alphabets(index % 26).toString
-      case count => alphabets(count - 1).toString + alphabets(index % 26).toString
-    }
+    CellReference.convertNumToColString(index)
   }
 
   def addrToIndexes(address: String) = {

@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel._
  * User: ishiiyoshinori
  * Date: 11/05/04
  */
-
 object Implicits {
 
   implicit def workbook2fancy(w: Workbook) = new FancyWorkbook(w)

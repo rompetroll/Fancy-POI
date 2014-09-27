@@ -24,10 +24,15 @@ object FancyWorkbook {
     w
   }
 
+  def createFromFile(file: scala.reflect.io.File): Workbook =
+    createFromInputStream(file.inputStream)
+
   def createFromInputStream(is: InputStream) = {
-    val w = WorkbookFactory.create(is)
-    is.close
-    w
+    try {
+      WorkbookFactory.create(is)
+    } finally {
+      is.close()
+    }
   }
 }
 
@@ -115,6 +120,10 @@ class FancyWorkbook(protected[fancypoi] val workbook: Workbook) {
         newStyle
     }
   }
+
+  def apply(sheetName: String) = sheet(sheetName)
+
+  def apply(sheetIndex: Int) = sheetAt(sheetIndex)
 
   /**
    * シートを名前で検索します

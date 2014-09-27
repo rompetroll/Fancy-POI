@@ -10,6 +10,10 @@ class FancyRow(protected[fancypoi] val _row: Row) {
 
   def addr = (_row.getRowNum + 1).toString
 
+  def apply(address: String): Cell = cell(address)
+
+  def apply(index: Int): Cell = cellAt(index)
+
   def cell(address: String): Cell = cellAt(colAddrToIndex(address))
 
   def cellAt(index: Int) = _row.getCell(index, Row.CREATE_NULL_AS_BLANK)

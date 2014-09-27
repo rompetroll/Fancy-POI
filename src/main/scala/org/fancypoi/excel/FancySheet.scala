@@ -14,6 +14,8 @@ class FancySheet(protected[fancypoi] val _sheet: Sheet) {
 
   override def toString = "#" + _sheet.getSheetName
 
+  def apply(colIndex: Int, rowIndex: Int): Cell = cellAt(colIndex, rowIndex)
+
   def cell(address: String): Cell = {
     val (colIndex, rowIndex) = addrToIndexes(address)
     cellAt(colIndex, rowIndex)
@@ -74,4 +76,6 @@ class FancySheet(protected[fancypoi] val _sheet: Sheet) {
   def lastRowIndex = _sheet.getLastRowNum
 
   def lastRowAddr = _sheet.getLastRowNum + 1 toString
+
+  def name = _sheet.getSheetName
 }
