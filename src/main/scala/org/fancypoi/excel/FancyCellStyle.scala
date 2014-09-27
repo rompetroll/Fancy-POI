@@ -30,6 +30,7 @@ class FancyCellStyle extends CellStyle {
 	private var _topBorderColor: Short = IndexedColors.BLACK.getIndex
 	private var _verticalAlign: Short = 2
 	private var _wrapped: Boolean = false
+	private var _shrinkToFit: Boolean = false
 
 
 	def getIndex: Short = FancyCellStyle.DEFAULT_CELL_STYLE_INDEX
@@ -124,5 +125,8 @@ class FancyCellStyle extends CellStyle {
 	def setWrapText(wrapped: Boolean): Unit = _wrapped = wrapped
 
 	def cloneStyleFrom(source: CellStyle): Unit = throw new RuntimeException("Can't clone style.")
-}
 
+	def getShrinkToFit: Boolean = _shrinkToFit
+
+	def setShrinkToFit(shrinkToFit: Boolean): Unit = _shrinkToFit = shrinkToFit 
+}
