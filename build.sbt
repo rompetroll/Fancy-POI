@@ -2,7 +2,7 @@ name := "fancy-poi"
 
 organization := "org.fancypoi"
 
-version := "1.0"
+version := "1.1"
 
 libraryDependencies ++= Seq(
   "org.apache.poi" % "poi" % "3.10.1",

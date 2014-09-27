@@ -16,10 +16,10 @@ create a project/Build.scala like this
       val mySettings = Defaults.defaultSettings ++ Seq(
         name := "projectname",
         version := "1.0",
-        scalaVersion := "2.10.0",
+        scalaVersion := "2.10.4",
         libraryDependencies ++= Seq(
-           "org.apache.poi" % "poi" % "3.7",
-           "org.apache.poi" % "poi-ooxml" % "3.7"
+           "org.apache.poi" % "poi" % "3.10.1",
+           "org.apache.poi" % "poi-ooxml" % "3.10.1"
         )
       )
 
