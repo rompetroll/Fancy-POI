@@ -1,9 +1,10 @@
 package org.fancypoi.excel
 
 import org.apache.poi.ss.usermodel.{ RichTextString, Hyperlink, Font, CellStyle, Cell }
+import org.apache.poi.ss.util.CellReference.convertNumToColString
 import java.util.{ Calendar, Date }
-import FancyExcelUtils._
 import org.fancypoi.Implicits._
+import org.fancypoi.excel.FancyExcelUtils._
 
 class FancyCell(protected[fancypoi] val _cell: Cell) {
   lazy val workbook = _cell.getSheet.getWorkbook
@@ -12,7 +13,7 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def styleFont = workbook.getFontAt(style.getFontIndex)
 
-  def addr: String = colIndexToAddr(_cell.getColumnIndex) + (_cell.getRowIndex + 1)
+  def addr: String = convertNumToColString(_cell.getColumnIndex) + (_cell.getRowIndex + 1)
 
   def stringValue: String = _cell.getStringCellValue
 

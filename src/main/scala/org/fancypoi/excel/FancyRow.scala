@@ -1,8 +1,11 @@
 package org.fancypoi.excel
 
-import org.apache.poi.ss.usermodel.{ Row, Cell }
-import FancyExcelUtils._
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.util.CellReference.convertColStringToIndex
+import org.apache.poi.ss.util.CellReference.convertNumToColString
 import org.fancypoi.Implicits._
+import org.fancypoi.excel.FancyExcelUtils._
 
 class FancyRow(protected[fancypoi] val _row: Row) {
 
@@ -14,28 +17,28 @@ class FancyRow(protected[fancypoi] val _row: Row) {
 
   def apply(index: Int): Cell = cellAt(index)
 
-  def cell(address: String): Cell = cellAt(colAddrToIndex(address))
+  def cell(address: String): Cell = cellAt(convertColStringToIndex(address))
 
   def cellAt(index: Int) = _row.getCell(index, Row.CREATE_NULL_AS_BLANK)
 
-  def cell_?(address: String) = cellAt_?(colAddrToIndex(address))
+  def cell_?(address: String) = cellAt_?(convertColStringToIndex(address))
 
   def cellAt_?(index: Int) = !!(_row.getCell(index, Row.RETURN_NULL_AND_BLANK))
 
   def cells: List[Cell] = (0 to lastColIndex).map(cellAt).toList
 
-  def firstColAddr = colIndexToAddr(firstColIndex)
+  def firstColAddr = convertNumToColString(firstColIndex)
 
   def firstColIndex = _row.getFirstCellNum.toInt
 
-  def lastColAddr = colIndexToAddr(lastColIndex)
+  def lastColAddr = convertNumToColString(lastColIndex)
 
   def lastColIndex = _row.getLastCellNum.toInt
 
   def index = _row.getRowNum
 
   def cellsFrom(startColAddr: String)(block: CellSeq => Unit) {
-    cellsFromAt(colAddrToIndex(startColAddr))(block)
+    cellsFromAt(convertColStringToIndex(startColAddr))(block)
   }
 
   def cellsFromAt(startColIndex: Int)(block: CellSeq => Unit) {

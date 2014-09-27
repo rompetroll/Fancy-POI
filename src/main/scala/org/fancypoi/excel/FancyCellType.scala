@@ -1,7 +1,5 @@
 package org.fancypoi.excel
 
-import org.apache.poi.ss.usermodel.Cell
-
 /**
  * Scala-themed support for POI cell types.
  * Usage example:

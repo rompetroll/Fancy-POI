@@ -1,10 +1,10 @@
 package org.fancypoi.excel
 
+import java.io._
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import java.io._
-import FancyExcelUtils._
 import org.apache.poi.ss.usermodel._
+import org.fancypoi.excel.FancyExcelUtils._
 
 /**
  * User: ishiiyoshinori

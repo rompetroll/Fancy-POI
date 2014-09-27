@@ -1,8 +1,8 @@
 package org.fancypoi.excel
 
 import org.apache.poi.ss.usermodel.{ Sheet, Row, Cell }
-import FancyExcelUtils._
 import org.fancypoi.Implicits._
+import org.fancypoi.excel.FancyExcelUtils._
 
 /**
  * User: ishiiyoshinori

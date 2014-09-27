@@ -1,7 +1,8 @@
 package org.fancypoi.excel
 
 import org.apache.poi.ss.usermodel._
-import org.apache.poi.ss.util.CellReference
+import org.apache.poi.ss.util.CellReference.convertColStringToIndex
+import org.apache.poi.ss.util.CellReference.convertNumToColString
 import org.apache.poi.hssf.usermodel.HSSFRichTextString
 import org.apache.poi.xssf.usermodel.XSSFRichTextString
 import org.fancypoi.Implicits._
@@ -9,25 +10,11 @@ import org.fancypoi.MonadicConversions._
 
 object FancyExcelUtils extends App {
 
-  /**
-   * 列アドレスを列インデックスに変換します。
-   */
-  def colAddrToIndex(col: String) = {
-    CellReference.convertColStringToIndex(col)
-  }
-
-  /**
-   * 列インデックスを列アドレスに変換します。
-   */
-  def colIndexToAddr(index: Int) = {
-    CellReference.convertNumToColString(index)
-  }
-
   def addrToIndexes(address: String) = {
     val m = "([A-Z]+)(\\d+)".r.findAllIn(address).matchData.toList(0)
     val colAddr = m.group(1)
     val rowAddr = m.group(2)
-    (colAddrToIndex(colAddr), rowAddr.toInt - 1)
+    (convertColStringToIndex(colAddr), rowAddr.toInt - 1)
   }
 
   def copyRowStyle(from: FancyRow, to: FancyRow) {
@@ -251,7 +238,8 @@ object FancyExcelUtils extends App {
     def ~(endAddr: String): List[String] = if (isRowAddr(startAddr) && isRowAddr(endAddr)) {
       (startAddr.toInt to endAddr.toInt).map(_.toString).toList
     } else if (isColAddr(startAddr) && isColAddr(endAddr)) {
-      (colAddrToIndex(startAddr) to colAddrToIndex(endAddr)).map(colIndexToAddr).toList
+      (convertColStringToIndex(startAddr) to convertColStringToIndex(endAddr))
+        .map(convertNumToColString).toList
     } else throw new IllegalArgumentException
 
   }
