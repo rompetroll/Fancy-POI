@@ -32,6 +32,8 @@ class FancyRow(protected[fancypoi] val _row: Row) {
 
   def lastColIndex = _row.getLastCellNum.toInt
 
+  def index = _row.getRowNum
+
   def cellsFrom(startColAddr: String)(block: CellSeq => Unit) {
     cellsFromAt(colAddrToIndex(startColAddr))(block)
   }

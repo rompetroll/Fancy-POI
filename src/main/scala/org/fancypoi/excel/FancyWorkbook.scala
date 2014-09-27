@@ -150,6 +150,8 @@ class FancyWorkbook(protected[fancypoi] val workbook: Workbook) {
    */
   def sheets = (0 to workbook.getNumberOfSheets - 1).map(sheetAt).toList
 
+  def creationHelper = workbook.getCreationHelper
+
   /**
    *  ワークブックをファイルに書き出します。
    */

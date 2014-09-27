@@ -14,8 +14,6 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def addr: String = colIndexToAddr(_cell.getColumnIndex) + (_cell.getRowIndex + 1)
 
-  def value = _cell.getStringCellValue
-
   def stringValue: String = _cell.getStringCellValue
 
   def numericValue: Double = _cell.getNumericCellValue
@@ -24,48 +22,34 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def dateValue: Date = _cell.getDateCellValue
 
-  def booleanvalue: Boolean = _cell.getBooleanCellValue
+  def booleanValue: Boolean = _cell.getBooleanCellValue
 
-  def value(value: String) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: String): Unit =
+    _cell.setCellValue(value)
 
-  def value(value: Double) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: Double): Unit =
+    _cell.setCellValue(value)
 
-  def value(value: RichTextString) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: RichTextString): Unit =
+    _cell.setCellValue(value)
 
-  def value(value: Calendar) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: Calendar): Unit =
+    _cell.setCellValue(value)
 
-  def value(value: Date) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: Date): Unit =
+    _cell.setCellValue(value)
 
-  def value(value: Boolean) = {
-    _cell.setCellValue(value);
-    this
-  }
+  def value_=(value: Boolean): Unit =
+    _cell.setCellValue(value)
 
   def formula: String = {
     _cell.getCellFormula
   }
 
-  def formula(formula: String) = {
+  def formula_=(formula: String): Unit =
     _cell.setCellFormula(formula);
-    this
-  }
 
-  def hyperlink(linkType: Int, address: String) = {
+  def hyperlink_=(linkType: Int, address: String) = {
     val link = workbook.getCreationHelper.createHyperlink(linkType)
     link.setAddress(address)
     _cell.setHyperlink(link)
@@ -73,6 +57,12 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
   }
 
   def hyperlink: Hyperlink = _cell.getHyperlink
+
+  def row = _cell.getRow
+
+  def rowIndex = _cell.getRowIndex
+
+  def colIndex = _cell.getColumnIndex
 
   def style = _cell.getCellStyle
 
