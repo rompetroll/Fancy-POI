@@ -24,9 +24,6 @@ object FancyWorkbook {
     w
   }
 
-  def createFromFile(file: scala.reflect.io.File): Workbook =
-    createFromInputStream(file.inputStream)
-
   def createFromInputStream(is: InputStream) = {
     try {
       WorkbookFactory.create(is)
