@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRichTextString
 import org.fancypoi.Implicits._
 import org.fancypoi.MonadicConversions._
 
-object FancyExcelUtils extends App {
+object FancyExcelUtils {
 
   def addrToIndexes(address: String) = {
     val m = "([A-Z]+)(\\d+)".r.findAllIn(address).matchData.toList(0)
