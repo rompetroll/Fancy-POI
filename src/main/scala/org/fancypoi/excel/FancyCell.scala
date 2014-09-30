@@ -15,6 +15,18 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def addr: String = convertNumToColString(_cell.getColumnIndex) + (_cell.getRowIndex + 1)
 
+  def value: Option[Any] = {
+    import FancyCellType._
+    cellType match {
+      case CellTypeNumeric => Some(numericValue)
+      case CellTypeString  => Some(stringValue)
+      case CellTypeFormula => Some(formula)
+      case CellTypeBlank   => None
+      case CellTypeBoolean => Some(booleanValue)
+      case CellTypeError   => Some(errorValue)
+    }
+  }
+
   def stringValue: String = _cell.getStringCellValue
 
   def numericValue: Double = _cell.getNumericCellValue
@@ -24,6 +36,8 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
   def dateValue: Date = _cell.getDateCellValue
 
   def booleanValue: Boolean = _cell.getBooleanCellValue
+
+  def errorValue: Byte = _cell.getErrorCellValue
 
   def value_=(value: String): Unit =
     _cell.setCellValue(value)

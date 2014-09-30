@@ -17,7 +17,7 @@ package org.fancypoi.excel
  * @author FS
  */
 object FancyCellType {
-  sealed class CellType(val cellTypeIndex: Int, val cellTypeString: String) {
+  sealed abstract class CellType(val cellTypeIndex: Int, val cellTypeString: String) {
     override def toString = cellTypeString
   }
   case object CellTypeNumeric extends CellType(0, "CELL_TYPE_NUMERIC")
