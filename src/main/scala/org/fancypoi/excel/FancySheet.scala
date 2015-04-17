@@ -1,5 +1,7 @@
 package org.fancypoi.excel
 
+import scala.collection.JavaConversions
+
 import org.apache.poi.ss.usermodel.{ Sheet, Row, Cell }
 import org.fancypoi.Implicits._
 import org.fancypoi.excel.FancyExcelUtils._
@@ -45,7 +47,7 @@ class FancySheet(protected[fancypoi] val _sheet: Sheet) {
 
   def rowAt_?(index: Int): Option[Row] = !!(_sheet.getRow(index))
 
-  def rows: List[Row] = (0 to lastRowIndex).map(rowAt).toList
+  def rows: List[Row] = JavaConversions.asScalaIterator(_sheet.rowIterator).toList
 
   def rows(rowRange: (String, String)): List[Row] = {
     val startIndex = rowRange._1.toInt - 1
