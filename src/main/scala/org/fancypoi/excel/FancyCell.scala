@@ -39,6 +39,8 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
 
   def errorValue: Byte = _cell.getErrorCellValue
 
+  def isEmpty: Boolean = cellType == FancyCellType.CellTypeBlank
+
   def value_=(value: String): Unit =
     _cell.setCellValue(value)
 
