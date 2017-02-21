@@ -3,6 +3,7 @@ package org.fancypoi.excel
 import org.apache.poi.ss.usermodel._
 import org.apache.poi.ss.util.CellReference.convertColStringToIndex
 import org.apache.poi.ss.util.CellReference.convertNumToColString
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy
 import org.apache.poi.hssf.usermodel.HSSFRichTextString
 import org.apache.poi.xssf.usermodel.XSSFRichTextString
 import org.fancypoi.Implicits._
@@ -20,7 +21,7 @@ object FancyExcelUtils {
   def copyRowStyle(from: FancyRow, to: FancyRow) {
     for {
       colIndex <- (from.firstColIndex to from.lastColIndex).toList
-      cell = from.getCell(colIndex, Row.RETURN_NULL_AND_BLANK)
+      cell = from.getCell(colIndex, MissingCellPolicy.RETURN_NULL_AND_BLANK)
       if cell != null
       cellStyle = cell.getCellStyle
     } yield {
@@ -57,23 +58,23 @@ object FancyExcelUtils {
     !(cell.cellType == FancyCellType.CellTypeBlank &&
       List(0, 64).contains(cell.style.getFillBackgroundColor) &&
       List(0, 64).contains(cell.style.getFillForegroundColor) &&
-      cell.style.getBorderBottom == CellStyle.BORDER_NONE &&
-      cell.style.getBorderLeft == CellStyle.BORDER_NONE &&
-      cell.style.getBorderRight == CellStyle.BORDER_NONE &&
-      cell.style.getBorderTop == CellStyle.BORDER_NONE)
+      cell.style.getBorderBottomEnum == BorderStyle.NONE &&
+      cell.style.getBorderLeftEnum == BorderStyle.NONE &&
+      cell.style.getBorderRightEnum == BorderStyle.NONE &&
+      cell.style.getBorderTopEnum == BorderStyle.NONE)
   }
 
   def copyStyleWithoutFont(from: CellStyle, to: CellStyle) = {
-    to.setAlignment(from.getAlignment)
-    to.setBorderBottom(from.getBorderBottom)
-    to.setBorderLeft(from.getBorderLeft)
-    to.setBorderRight(from.getBorderRight)
-    to.setBorderTop(from.getBorderTop)
+    to.setAlignment(from.getAlignmentEnum)
+    to.setBorderBottom(from.getBorderBottomEnum)
+    to.setBorderLeft(from.getBorderLeftEnum)
+    to.setBorderRight(from.getBorderRightEnum)
+    to.setBorderTop(from.getBorderTopEnum)
     to.setBottomBorderColor(from.getBottomBorderColor)
     to.setDataFormat(from.getDataFormat)
     to.setFillForegroundColor(from.getFillForegroundColor) // setFillBackgroundColor の前にsetFillForegroundColorをセットしないとgetFillBackgroundColorの値が変わってしまう。
     to.setFillBackgroundColor(from.getFillBackgroundColor)
-    to.setFillPattern(from.getFillPattern)
+    to.setFillPattern(from.getFillPatternEnum)
     to.setHidden(from.getHidden)
     to.setIndention(from.getIndention)
     to.setLeftBorderColor(from.getLeftBorderColor)
@@ -81,13 +82,13 @@ object FancyExcelUtils {
     to.setRightBorderColor(from.getRightBorderColor)
     to.setRotation(from.getRotation)
     to.setTopBorderColor(from.getTopBorderColor)
-    to.setVerticalAlignment(from.getVerticalAlignment)
+    to.setVerticalAlignment(from.getVerticalAlignmentEnum)
     to.setWrapText(from.getWrapText)
     to
   }
 
   def copyFont(from: Font, to: Font) = {
-    to.setBoldweight(from.getBoldweight)
+    to.setBold(from.getBold)
     to.setCharSet(from.getCharSet)
     to.setColor(from.getColor)
     to.setFontHeight(from.getFontHeight)
@@ -102,7 +103,7 @@ object FancyExcelUtils {
   protected def diff(expected: Any, actual: Any, name: String) = (expected == actual) ~ ("[" + name + "] expected=" + expected + ",actual=" + actual)
 
   def equalFont(font1: Font, font2: Font) = {
-    diff(font1.getBoldweight, font2.getBoldweight, "boldweight") &&
+    diff(font1.getBold, font2.getBold, "bold") &&
       diff(font1.getColor, font2.getColor, "color") &&
       diff(font1.getFontHeight, font2.getFontHeight, "fontHeight") &&
       diff(font1.getFontName, font2.getFontName, "fontName") &&
@@ -113,16 +114,16 @@ object FancyExcelUtils {
   }
 
   def equalStyleWithoutFont(style1: CellStyle, style2: CellStyle) = {
-    diff(style1.getAlignment, style2.getAlignment, "alignment") &&
-      diff(style1.getBorderBottom, style2.getBorderBottom, "borderBottom") &&
-      diff(style1.getBorderLeft, style2.getBorderLeft, "borderLeft") &&
-      diff(style1.getBorderRight, style2.getBorderRight, "borderRight") &&
-      diff(style1.getBorderTop, style2.getBorderTop, "borderTop") &&
+    diff(style1.getAlignmentEnum, style2.getAlignmentEnum, "alignment") &&
+      diff(style1.getBorderBottomEnum, style2.getBorderBottomEnum, "borderBottom") &&
+      diff(style1.getBorderLeftEnum, style2.getBorderLeftEnum, "borderLeft") &&
+      diff(style1.getBorderRightEnum, style2.getBorderRightEnum, "borderRight") &&
+      diff(style1.getBorderTopEnum, style2.getBorderTopEnum, "borderTop") &&
       diff(style1.getBottomBorderColor, style2.getBottomBorderColor, "bottomBorderColor") &&
       diff(style1.getDataFormat, style2.getDataFormat, "dateFormat") &&
       diff(style1.getFillBackgroundColor, style2.getFillBackgroundColor, "fillBackgroundColor") &&
       diff(style1.getFillForegroundColor, style2.getFillForegroundColor, "fillForegroundColor") &&
-      diff(style1.getFillPattern, style2.getFillPattern, "fillPattern") &&
+      diff(style1.getFillPatternEnum, style2.getFillPatternEnum, "fillPattern") &&
       diff(style1.getHidden, style2.getHidden, "hidden") &&
       diff(style1.getIndention, style2.getIndention, "indention") &&
       diff(style1.getLeftBorderColor, style2.getLeftBorderColor, "leftBorderColor") &&
@@ -130,7 +131,7 @@ object FancyExcelUtils {
       diff(style1.getRightBorderColor, style2.getRightBorderColor, "rightBorderColor") &&
       diff(style1.getRotation, style2.getRotation, "rotation") &&
       diff(style1.getTopBorderColor, style2.getTopBorderColor, "borderColor") &&
-      diff(style1.getVerticalAlignment, style2.getVerticalAlignment, "verticalAlignment") &&
+      diff(style1.getVerticalAlignmentEnum, style2.getVerticalAlignmentEnum, "verticalAlignment") &&
       diff(style1.getWrapText, style2.getWrapText, "wrapText")
   }
 
@@ -142,7 +143,7 @@ object FancyExcelUtils {
       case _ =>
         diff(link1.getAddress, link2.getAddress, "address") &&
           diff(link1.getLabel, link2.getLabel, "label") &&
-          diff(link1.getType, link2.getType, "type")
+          diff(link1.getTypeEnum, link2.getTypeEnum, "type")
     }
   }
 
@@ -178,13 +179,13 @@ object FancyExcelUtils {
     }
   }
 
-  def toStringFont(font: Font) = {
+  def toStringFont(font: Font): String = {
     List("index" -> font.getIndex,
       "fontName" -> font.getFontName,
       "fontHeight" -> font.getFontHeight,
       "italic" -> font.getItalic,
       "strikout" -> font.getStrikeout,
-      "boldweight" -> font.getBoldweight,
+      "bold" -> font.getBold,
       "underline" -> font.getUnderline,
       "typeOffset" -> font.getTypeOffset,
       "charset" -> font.getCharSet,
@@ -193,20 +194,20 @@ object FancyExcelUtils {
       }.mkString(",")
   }
 
-  def toStringStyle(style: CellStyle) = {
+  def toStringStyle(style: CellStyle): String = {
     List(
       "index" -> style.getIndex,
       "fontIndex" -> style.getFontIndex,
-      "alignment" -> style.getAlignment,
-      "borderBottom" -> style.getBorderBottom,
-      "borderLeft" -> style.getBorderLeft,
-      "borderRight" -> style.getBorderRight,
-      "borderTop" -> style.getBorderTop,
+      "alignment" -> style.getAlignmentEnum,
+      "borderBottom" -> style.getBorderBottomEnum,
+      "borderLeft" -> style.getBorderLeftEnum,
+      "borderRight" -> style.getBorderRightEnum,
+      "borderTop" -> style.getBorderTopEnum,
       "bottomBorderColor" -> style.getBottomBorderColor,
       "dataFormat" -> style.getDataFormat,
       "fillBackgroundColor" -> style.getFillBackgroundColor,
       "fillForegroundColor" -> style.getFillForegroundColor,
-      "fillPattern" -> style.getFillPattern,
+      "fillPattern" -> style.getFillPatternEnum,
       "fontIndex" -> style.getFontIndex,
       "hidden" -> style.getHidden,
       "indention" -> style.getIndention,
@@ -215,7 +216,7 @@ object FancyExcelUtils {
       "rightBorderColor" -> style.getRightBorderColor,
       "rotation" -> style.getRotation,
       "topBorderColor" -> style.getTopBorderColor,
-      "verticalAlignment" -> style.getVerticalAlignment,
+      "verticalAlignment" -> style.getVerticalAlignmentEnum,
       "wrapText" -> style.getWrapText).map {
         case (k, v) => k + "=" + v
       }.mkString(",")

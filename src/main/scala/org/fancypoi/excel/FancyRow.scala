@@ -2,6 +2,7 @@ package org.fancypoi.excel
 
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy
 import org.apache.poi.ss.util.CellReference.convertColStringToIndex
 import org.apache.poi.ss.util.CellReference.convertNumToColString
 import org.fancypoi.Implicits._
@@ -19,11 +20,11 @@ class FancyRow(protected[fancypoi] val _row: Row) {
 
   def cell(address: String): Cell = cellAt(convertColStringToIndex(address))
 
-  def cellAt(index: Int) = _row.getCell(index, Row.CREATE_NULL_AS_BLANK)
+  def cellAt(index: Int) = _row.getCell(index, MissingCellPolicy.CREATE_NULL_AS_BLANK)
 
   def cell_?(address: String) = cellAt_?(convertColStringToIndex(address))
 
-  def cellAt_?(index: Int) = !!(_row.getCell(index, Row.RETURN_NULL_AND_BLANK))
+  def cellAt_?(index: Int) = !!(_row.getCell(index, MissingCellPolicy.RETURN_NULL_AND_BLANK))
 
   def cells: List[Cell] = (0 to lastColIndex).map(cellAt).toList
 

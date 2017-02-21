@@ -7,10 +7,9 @@ import org.apache.poi.ss.usermodel._
 import org.fancypoi.excel.FancyExcelUtils._
 
 /**
- * User: ishiiyoshinori
- * Date: 11/05/04
+ * @author ishiiyoshinori
+ * @since 2011-05-04
  */
-
 object FancyWorkbook {
 
   def createXls = new HSSFWorkbook

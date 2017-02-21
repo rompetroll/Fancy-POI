@@ -18,7 +18,7 @@ class FancyCellStyle extends CellStyle {
   private var _borderTop: BorderStyle = BorderStyle.NONE
   private var _bottomBorderColor: Short = IndexedColors.BLACK.getIndex
   private var _dataFormat: Short = 0
-  private var _fillPattern: Short = CellStyle.NO_FILL
+  private var _fillPattern: FillPatternType = FillPatternType.NO_FILL
   private var _font: Font = _
   private var _foregroundColor: Short = IndexedColors.WHITE.getIndex
   private var _hidden: Boolean = false
@@ -96,13 +96,13 @@ class FancyCellStyle extends CellStyle {
 
   def setFillForegroundColor(fg: Short): Unit = _foregroundColor = fg
 
-  def getFillPattern: Short = _fillPattern
+  def getFillPattern: Short = _fillPattern.getCode
 
-  def setFillPattern(fp: Short): Unit = _fillPattern = fp
+  def setFillPattern(fp: Short): Unit = _fillPattern = FillPatternType.forInt(fp)
 
-  def getFillPatternEnum: FillPatternType = FillPatternType.forInt(_fillPattern)
+  def getFillPatternEnum: FillPatternType = _fillPattern
 
-  def setFillPattern(fp: FillPatternType): Unit = _fillPattern = fp.getCode
+  def setFillPattern(fp: FillPatternType): Unit = _fillPattern = fp
 
   def getFontIndex: Short = _font.getIndex
 

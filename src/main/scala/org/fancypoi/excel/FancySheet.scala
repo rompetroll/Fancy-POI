@@ -7,10 +7,9 @@ import org.fancypoi.Implicits._
 import org.fancypoi.excel.FancyExcelUtils._
 
 /**
- * User: ishiiyoshinori
- * Date: 11/05/04
+ * @author ishiiyoshinori
+ * @since 2011-05-04
  */
-
 class FancySheet(protected[fancypoi] val _sheet: Sheet) {
   lazy val workbook = _sheet.getWorkbook
 

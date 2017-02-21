@@ -1,5 +1,6 @@
 package org.fancypoi.excel
 
+import org.apache.poi.common.usermodel.HyperlinkType
 import org.apache.poi.ss.usermodel.{ RichTextString, Hyperlink, Font, CellStyle, Cell }
 import org.apache.poi.ss.util.CellReference.convertNumToColString
 import java.util.{ Calendar, Date }
@@ -64,13 +65,12 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
   }
 
   def formula_=(formula: String): Unit =
-    _cell.setCellFormula(formula);
+    _cell.setCellFormula(formula)
 
-  def hyperlink_=(linkType: Int, address: String) = {
-    val link = workbook.getCreationHelper.createHyperlink(linkType)
-    link.setAddress(address)
+  def hyperlink_=(linkTypeAddress: (HyperlinkType, String)): Unit = {
+    val link = workbook.getCreationHelper.createHyperlink(linkTypeAddress._1)
+    link.setAddress(linkTypeAddress._2)
     _cell.setHyperlink(link)
-    this
   }
 
   def hyperlink: Hyperlink = _cell.getHyperlink
@@ -91,27 +91,27 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
    * フォントを更新します。
    * 変更した設定値以外は、既存の値を引き継ぎます。
    */
-  def updateFont(block: Font => Unit) = {
+  def updateFont(block: Font => Unit): FancyCell = {
     val updatedFont = workbook.getFontBasedWith(workbook.getFontAt(_cell.getCellStyle.getFontIndex))(block)
     updateStyle(_.setFont(updatedFont))
-    this;
+    this
   }
 
   /**
    * フォントを新規に設定します。
    * 設定していない値には、デフォルトの値が設定されます。
    */
-  def replaceFont(block: Font => Unit) = {
+  def replaceFont(block: Font => Unit): FancyCell = {
     val newFont = workbook.getFontWith(block)
     updateStyle(_.setFont(newFont))
-    this;
+    this
   }
 
   /**
    * セルスタイルを置き換えます。
    */
-  def replaceStyle(styleObj: CellStyle) = {
-    _cell.setCellStyle(styleObj);
+  def replaceStyle(styleObj: CellStyle): FancyCell = {
+    _cell.setCellStyle(styleObj)
     this
   }
 
@@ -119,20 +119,19 @@ class FancyCell(protected[fancypoi] val _cell: Cell) {
    * セルスタイルを更新します。
    * 変更した設定値以外は、既存の値を引き継ぎます。
    */
-  def updateStyle(block: CellStyle => Unit) = {
+  def updateStyle(block: CellStyle => Unit): FancyCell = {
     val updatedStyle = workbook.getStyleBasedWith(_cell.getCellStyle)(block)
     _cell.setCellStyle(updatedStyle)
-    this;
+    this
   }
 
   /**
    * セルスタイルを新規に設定します。
    * 設定していない値には、デフォルトの値が設定されます。
    */
-  def replaceStyle(block: CellStyle => Unit) = {
+  def replaceStyle(block: CellStyle => Unit): FancyCell = {
     val style = workbook.getStyle(block)
     _cell.setCellStyle(style)
     this
   }
-
 }
