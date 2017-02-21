@@ -37,8 +37,8 @@ object FancyExcelUtils {
     }.map(workbook.workbook.getFontAt)
   }
 
-  def searchStyle(workbook: FancyWorkbook, style: FancyCellStyle) = {
-    (0 to workbook.workbook.getNumCellStyles - 1).map(_.toShort).find {
+  def searchStyle(workbook: FancyWorkbook, style: FancyCellStyle): Option[CellStyle] = {
+    (0 to workbook.workbook.getNumCellStyles - 1).map(_.toInt).find {
       index =>
         val registered = workbook.workbook.getCellStyleAt(index toShort)
         equalStyleWithoutFont(style, registered) && equalFont(style.getFont, workbook.getFontAt(registered.getFontIndex))
@@ -49,9 +49,9 @@ object FancyExcelUtils {
    * 目に見えるセルかどうかを判定します。
    *
    * 以下の条件を満たすと目に見えないと判定します。
-   * 		・値がブランク
-   * 		・背景色、前面色がない、または、自動設定
-   * 		・罫線もない
+   *     ・値がブランク
+   *     ・背景色、前面色がない、または、自動設定
+   *     ・罫線もない
    */
   def isViewableCell(cell: FancyCell) = {
     !(cell.cellType == FancyCellType.CellTypeBlank &&
@@ -170,10 +170,10 @@ object FancyExcelUtils {
         }.isDefined
       case (x1: XSSFRichTextString, x2: XSSFRichTextString) =>
         throw new RuntimeException
-      //				if (x1.numFormattingRuns != x2.numFormattingRuns) return false
-      //				val x1FontIndexes = (0 to x1.numFormattingRuns - 1).map(x1.getFontOfFormattingRun).toList
-      //				val x2FontIndexes = (0 to x2.numFormattingRuns - 1).map(x2.getFontOfFormattingRun).toList
-      //				!x1FontIndexes.zip(x2FontIndexes).find {case (f1, f2) => !FancyPOIUtil.equalFont(workbook.getFontAt(f1), workbook.getFontAt(f2))}.isDefined
+      //        if (x1.numFormattingRuns != x2.numFormattingRuns) return false
+      //        val x1FontIndexes = (0 to x1.numFormattingRuns - 1).map(x1.getFontOfFormattingRun).toList
+      //        val x2FontIndexes = (0 to x2.numFormattingRuns - 1).map(x2.getFontOfFormattingRun).toList
+      //        !x1FontIndexes.zip(x2FontIndexes).find {case (f1, f2) => !FancyPOIUtil.equalFont(workbook.getFontAt(f1), workbook.getFontAt(f2))}.isDefined
       case _ => false
     }
   }

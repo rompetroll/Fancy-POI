@@ -1,6 +1,6 @@
 package org.fancypoi.excel
 
-import org.apache.poi.ss.usermodel.{ IndexedColors, Font, Color, CellStyle }
+import org.apache.poi.ss.usermodel._
 
 /**
  * CellStyleのバリューオブジェクト
@@ -10,12 +10,12 @@ object FancyCellStyle {
 }
 
 class FancyCellStyle extends CellStyle {
-  private var _align: Short = 0
+  private var _align: HorizontalAlignment = HorizontalAlignment.GENERAL
   private var _backgroundColor: Short = IndexedColors.WHITE.getIndex
-  private var _borderBottom: Short = CellStyle.BORDER_NONE
-  private var _borderLeft: Short = CellStyle.BORDER_NONE
-  private var _borderRight: Short = CellStyle.BORDER_NONE
-  private var _borderTop: Short = CellStyle.BORDER_NONE
+  private var _borderBottom: BorderStyle = BorderStyle.NONE
+  private var _borderLeft: BorderStyle = BorderStyle.NONE
+  private var _borderRight: BorderStyle = BorderStyle.NONE
+  private var _borderTop: BorderStyle = BorderStyle.NONE
   private var _bottomBorderColor: Short = IndexedColors.BLACK.getIndex
   private var _dataFormat: Short = 0
   private var _fillPattern: Short = CellStyle.NO_FILL
@@ -28,31 +28,51 @@ class FancyCellStyle extends CellStyle {
   private var _rightBorderColor: Short = IndexedColors.BLACK.getIndex
   private var _rotation: Short = 0
   private var _topBorderColor: Short = IndexedColors.BLACK.getIndex
-  private var _verticalAlign: Short = 2
+  private var _verticalAlign: VerticalAlignment = VerticalAlignment.BOTTOM
   private var _wrapped: Boolean = false
   private var _shrinkToFit: Boolean = false
 
   def getIndex: Short = FancyCellStyle.DEFAULT_CELL_STYLE_INDEX
 
-  def getAlignment: Short = _align
+  def getAlignment: Short = _align.getCode
 
-  def setAlignment(align: Short): Unit = _align = align
+  def setAlignment(align: Short): Unit = _align = HorizontalAlignment.forInt(align)
 
-  def getBorderBottom: Short = _borderBottom
+  def getAlignmentEnum: HorizontalAlignment = _align
 
-  def setBorderBottom(border: Short): Unit = _borderBottom = border
+  def setAlignment(align: HorizontalAlignment): Unit = _align = align
 
-  def getBorderLeft: Short = _borderLeft
+  def getBorderBottom: Short = _borderBottom.getCode
 
-  def setBorderLeft(border: Short): Unit = _borderLeft = border
+  def setBorderBottom(border: Short): Unit = _borderBottom = BorderStyle.valueOf(border)
 
-  def getBorderRight: Short = _borderRight
+  def getBorderBottomEnum(): BorderStyle = _borderBottom
 
-  def setBorderRight(border: Short): Unit = _borderRight = border
+  def setBorderBottom(border: BorderStyle): Unit = _borderBottom = border
 
-  def getBorderTop: Short = _borderTop
+  def getBorderLeft: Short = _borderLeft.getCode
 
-  def setBorderTop(border: Short): Unit = _borderTop = border
+  def setBorderLeft(border: Short): Unit = _borderLeft = BorderStyle.valueOf(border)
+
+  def getBorderLeftEnum(): BorderStyle = _borderLeft
+
+  def setBorderLeft(border: BorderStyle): Unit = _borderLeft = border
+
+  def getBorderRight: Short = _borderRight.getCode
+
+  def setBorderRight(border: Short): Unit = _borderRight = BorderStyle.valueOf(border)
+
+  def getBorderRightEnum(): BorderStyle = _borderRight
+
+  def setBorderRight(border: BorderStyle): Unit = _borderRight = border
+
+  def getBorderTop: Short = _borderTop.getCode
+
+  def setBorderTop(border: Short): Unit = _borderTop = BorderStyle.valueOf(border)
+
+  def getBorderTopEnum(): BorderStyle = _borderTop
+
+  def setBorderTop(border: BorderStyle): Unit = _borderTop = border
 
   def getBottomBorderColor: Short = _bottomBorderColor
 
@@ -79,6 +99,10 @@ class FancyCellStyle extends CellStyle {
   def getFillPattern: Short = _fillPattern
 
   def setFillPattern(fp: Short): Unit = _fillPattern = fp
+
+  def getFillPatternEnum: FillPatternType = FillPatternType.forInt(_fillPattern)
+
+  def setFillPattern(fp: FillPatternType): Unit = _fillPattern = fp.getCode
 
   def getFontIndex: Short = _font.getIndex
 
@@ -115,15 +139,19 @@ class FancyCellStyle extends CellStyle {
 
   def setTopBorderColor(color: Short): Unit = _topBorderColor = color
 
-  def getVerticalAlignment: Short = _verticalAlign
+  def getVerticalAlignment: Short = _verticalAlign.getCode
 
-  def setVerticalAlignment(align: Short): Unit = _verticalAlign = align
+  def setVerticalAlignment(align: Short): Unit = _verticalAlign = VerticalAlignment.forInt(align)
+
+  def getVerticalAlignmentEnum(): VerticalAlignment = _verticalAlign
+
+  def setVerticalAlignment(align: VerticalAlignment): Unit = _verticalAlign = align
 
   def getWrapText: Boolean = _wrapped
 
   def setWrapText(wrapped: Boolean): Unit = _wrapped = wrapped
 
-  def cloneStyleFrom(source: CellStyle): Unit = throw new RuntimeException("Can't clone style.")
+  def cloneStyleFrom(source: CellStyle): Unit = throw new UnsupportedOperationException("Can't clone style.")
 
   def getShrinkToFit: Boolean = _shrinkToFit
 

@@ -60,4 +60,12 @@ class FancyFont extends Font {
   def setBoldweight(boldweight: Short): Unit = _boldweight = boldweight
 
   def getBoldweight: Short = _boldweight
+
+  def getBold: Boolean = _boldweight match {
+    case Font.BOLDWEIGHT_BOLD => true
+    case _                    => false
+  }
+
+  def setBold(bold: Boolean): Unit =
+    _boldweight = if (bold) Font.BOLDWEIGHT_BOLD else Font.BOLDWEIGHT_NORMAL
 }
