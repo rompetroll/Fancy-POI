@@ -1,3 +1,11 @@
-.idea/
-fancy-poi.iml
+# Java
 target/
+/bin/
+
+# Idea
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath

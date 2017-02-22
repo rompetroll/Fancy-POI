@@ -1,31 +1,26 @@
-##Fancy scala wapper for Apache POI
+# Fancy-POI
 
----------------
+Fancy scala wrapper for Apache POI
 
-This fork just ads sbt config, so that the project can be included in other sbt projects. nothing more
+[![JitPack](https://jitpack.io/v/frozenspider/fancy-poi.svg)](https://jitpack.io/#frozenspider/fancy-poi)
 
-###Example for including in other sbt project: 
+## Overview
 
-create a project/Build.scala like this
+This fork enhances functionality a little, as well as:
 
-    import sbt._
-    import Keys._
+* Added SBT config
+* Added cross-compilation for Scala 2.10, 2.11, 2.12
+* Updated POI dependency to (currently latest) 3.15
+* Replaced most deprecated stuff
 
-    object MyProjectBuild extends Build {
+Note that this wrapper library still requires a major cleanup, but it will do its job as a thin wrapper.
 
-      val mySettings = Defaults.defaultSettings ++ Seq(
-        name := "projectname",
-        version := "1.0",
-        scalaVersion := "2.10.0",
-        libraryDependencies ++= Seq(
-           "org.apache.poi" % "poi" % "3.7",
-           "org.apache.poi" % "poi-ooxml" % "3.7"
-        )
-      )
+## How to include
 
-      lazy val myProject = Project("rootProject", file("."), settings = mySettings) dependsOn(fancyPoy)
+In your `build.sbt`:
 
-      lazy val fancyPoy = RootProject(uri("git://github.com/rompetroll/Fancy-POI.git"))
-    }
+```scala
+resolvers += "jitpack" at "https://jitpack.io"
 
-NOTE: this way of depending on a github project is not very stable.
+libraryDependencies += "com.github.frozenspider" %% "fancy-poi" % "1.2.1"
+```
